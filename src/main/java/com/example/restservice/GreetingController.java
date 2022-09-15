@@ -1,39 +1,29 @@
 package com.example.restservice;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@CrossOrigin
 @RestController
 public class GreetingController {
-	
-	private static ArrayList<Worker> workerlist = new ArrayList<Worker>();
 
-	@CrossOrigin
+	private static ArrayList<Worker> map = new ArrayList<Worker>();
+
 	@PostMapping("/add")
-	public void add(@RequestBody Worker worker) {
-		workerlist.add(worker);
+	public void addWorker(@RequestBody Worker worker) {
+		worker.setUuid(UUID.randomUUID());
+		map.add(worker);
 		System.err.println(worker);
 	}
-	
-	@CrossOrigin
-	@PostMapping("/list")
-	public ArrayList<String> list() {
-		ArrayList<String> list = new ArrayList<String>();
-		for (int i = 0; i < workerlist.size(); i++) {
-			list.add(workerlist.get(i).toString());
-		}
-		
-		return list;
+
+	@GetMapping("/get")
+	public ArrayList<Worker> getWorkers() {
+		return map;
 	}
 }
