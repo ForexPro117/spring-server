@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,5 +36,13 @@ public class GreetingController {
 				.orElseThrow(() -> new RuntimeException("not found"));
 		System.err.println(worker);
 		return worker;
+	}
+	
+	@GetMapping("/delete/{uuid}")
+	public void deleteWorker(@PathVariable UUID uuid) {
+		Worker worker = list.stream().filter(t -> t.getUuid().equals(uuid)).findFirst()
+				.orElseThrow(() -> new RuntimeException("not found"));
+		list.remove(worker);
+		System.err.println(worker);
 	}
 }
