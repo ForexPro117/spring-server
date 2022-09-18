@@ -22,27 +22,30 @@ public class GreetingController {
 	public void addWorker(@RequestBody Worker worker) {
 		worker.setUuid(UUID.randomUUID());
 		list.add(worker);
-//		System.err.println(worker);
+		System.err.println(worker);
 	}
 
 	@GetMapping("/get")
 	public ArrayList<Worker> getWorkers() {
 		return list;
 	}
-
-	@GetMapping("/get/{uuid}")
-	public Worker getWorker(@PathVariable UUID uuid) {
-		Worker worker = list.stream().filter(t -> t.getUuid().equals(uuid)).findFirst()
-				.orElseThrow(() -> new RuntimeException("not found"));
-		System.err.println(worker);
-		return worker;
-	}
 	
-	@GetMapping("/delete/{uuid}")
+	@DeleteMapping("/delete/{uuid}")
 	public void deleteWorker(@PathVariable UUID uuid) {
 		Worker worker = list.stream().filter(t -> t.getUuid().equals(uuid)).findFirst()
 				.orElseThrow(() -> new RuntimeException("not found"));
 		list.remove(worker);
 		System.err.println(worker);
+	}
+	
+	@PostMapping("/edit")
+	public void editWorker(@RequestBody Worker worker) {
+		UUID uuid = worker.getUuid();
+		for (Worker workerOld:list) {
+			if (workerOld.getUuid().equals(uuid) ) {
+				workerOld.setName(worker.getName());
+				workerOld.setPosition(worker.getPosition());
+			}
+		}
 	}
 }
