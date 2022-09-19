@@ -45,6 +45,7 @@ public class GreetingController {
 			if (workerOld.getUuid().equals(uuid) ) {
 				workerOld.setName(worker.getName());
 				workerOld.setPosition(worker.getPosition());
+				break;
 			}
 		}
 	}
